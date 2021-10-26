@@ -27,11 +27,11 @@ func (service *UserLoginService) Login(c *gin.Context) serializer.Response {
 	var user model.User
 
 	if err := model.DB.Where("email = ?", service.Email).First(&user).Error; err != nil {
-		return serializer.ParamErr("邮箱或密码错误", nil)
+		return serializer.ParamErr("邮箱不存在", nil)
 	}
 
 	if user.CheckPassword(service.Password) == false {
-		return serializer.ParamErr("账号或密码错误", nil)
+		return serializer.ParamErr("密码错误", nil)
 	}
 
 	// 设置session
